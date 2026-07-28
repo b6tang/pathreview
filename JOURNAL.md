@@ -21,12 +21,12 @@ The health endpoint directly passes the string `"SELECT 1"` to `AsyncSession.exe
 
 ## Week 8 — Reproduction & solution planning
 
-**Reproduction commit link:** [link to commit documenting the reproduced issue]
+**Reproduction commit link:** [c0f2fed — Document Issue #154 reproduction](https://github.com/b6tang/pathreview/commit/c0f2fedc368696bfc6d72013043465c75890c5a7)
 
 **Reproduction summary:**
 With the Docker services `db`, `redis`, and `vector-db` running, and the FastAPI application running with Uvicorn, I ran `curl.exe -i http://localhost:8000/health` in PowerShell. The endpoint returned HTTP 503 and showed PostgreSQL as unhealthy, while the backend log showed `Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')`, which matches the problem in Issue #154.
 
-**PLAN.md link:** [link to PLAN.md in your fork]
+**PLAN.md link:** [Solution plan for Issue #154](https://github.com/b6tang/pathreview/blob/30fc8b90cc103113f8e94e2bf3477e265704ebf2/PLAN.md)
 
 **Walkthrough video (recommended):** None.
 
