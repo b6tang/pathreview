@@ -54,16 +54,16 @@ No blocker for Issue #154. The full unit suite still contains 53 pre-existing fa
 
 ### Check-in 2 (end of week)
 
-**PR link:** [link to your submitted pull request]
+**PR link:** https://github.com/ascherj/pathreview/pull/767
 
-**Branch:** [the branch name you worked on, e.g. `fix/123-short-description`]
+**Branch:** `fix/154-health-check-db-probe`
 
 **What you built:**
-[1–3 sentences summarizing what your fix does and how it works]
+I fixed the PostgreSQL health check by wrapping `SELECT 1` with SQLAlchemy `text()`. This prevents SQLAlchemy 2.x from rejecting the query and allows the endpoint to report PostgreSQL as healthy when the database is available.
 
 **Tests added or updated:**
-[Which test files did you touch? What do they cover?]
+I added `tests/unit/test_health.py`. The test verifies that `db.execute()` receives a SQLAlchemy `TextClause` containing `SELECT 1` and that PostgreSQL is reported as healthy after the database probe succeeds.
 
-**Self-review confirmation:** [ ] make check passes  [ ] make test-unit passes
+**Self-review confirmation:** [x] make check passes  [x] make test-unit passes
 
-**Draft PR feedback received from:** [name or Slack handle, or "none"]
+**Draft PR feedback received from:** none
