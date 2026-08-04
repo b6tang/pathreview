@@ -1,9 +1,10 @@
 from datetime import datetime
-from typing import Any
+from typing import Annotated, Any
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 
@@ -13,7 +14,9 @@ router = APIRouter(prefix="/health", tags=["health"])
 
 
 @router.get("")
-async def health_check(db: Any = Depends(get_db)) -> dict[str, Any]:  # noqa: B008
+async def health_check(
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> dict[str, Any]:
     """
     Check health of PostgreSQL, Redis, and Vector DB.
     Returns 200 if all healthy, 503 if any dependency is down.
