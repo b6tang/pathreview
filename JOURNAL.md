@@ -67,3 +67,34 @@ I added `tests/unit/test_health.py`. The test verifies that `db.execute()` recei
 **Self-review confirmation:** [x] make check passes  [x] make test-unit passes
 
 **Draft PR feedback received from:** none
+
+
+## Week 10 — Iteration & reflection
+
+### Reviewer feedback
+
+**Feedback received:** [ ] Yes  [x] No — still awaiting review
+
+**Summary of feedback:**
+No reviewer feedback has been received as of Week 10.
+
+**How you responded:**
+
+---
+
+### Reflection
+
+**What was harder than you expected?**
+The actual fix for Issue #154 was only a two-line change: importing `text` from SQLAlchemy and changing `db.execute("SELECT 1")` to `db.execute(text("SELECT 1"))`. However, the process around the fix was much harder than I expected. Before this project, I had never used or even heard of Ruff, Black, mypy, or pre-commit, so seeing dozens of different errors at once was overwhelming. I had to compare the repository baseline of 53 failed and 375 passed tests with my branch result of 53 failed and 376 passed before I could confirm that I had not created new failures.
+
+**What did you learn about working in a large codebase?**
+I learned that contributing to someone else's codebase is very different from writing a small project by myself. A change can work correctly but still needs to follow the repository's existing structure, type annotations, formatting rules, test patterns, and commit conventions. I also learned that I should not try to fix every error I see, because a large repository may already contain unrelated test, lint, and type-checking problems that are outside the scope of my issue.
+
+**How did AI tools help — and where did they fall short?**
+AI tools helped me find the relevant route, understand the SQLAlchemy error, create the focused test in `tests/unit/test_health.py`, and interpret command output that I could not understand on my own. They were especially useful when I first encountered Ruff, Black, mypy, and pre-commit. However, AI sometimes suggested a change before I understood what it meant. For example, I originally added `# noqa: B008` to make Ruff ignore the FastAPI dependency line, but I did not understand why that comment affected the check. I later replaced it with the standard `Annotated[AsyncSession, Depends(get_db)]` form, which does not require a line-specific Ruff exception.
+
+**What would you do differently if you started over?**
+If I started over, I would run and save the full baseline results before changing any code. Knowing in advance that the repository already had 53 failed tests, 182 Ruff errors, and 5 mypy errors would have made the later output much less confusing. I would also ask what every unfamiliar tool, annotation, or special comment means before adding it, instead of only following steps until the checks pass.
+
+**What are you most proud of from this module?**
+I am most proud that I completed the full contribution process even though the codebase and most of its development tools were new to me. I added a focused regression test that checks that `db.execute()` receives a SQLAlchemy `TextClause` containing `SELECT 1`, and I verified the result against the repository baseline. The final logic change was small, but I was able to test it, review it, keep the scope controlled, and submit it through PR #767 without introducing new failures.
