@@ -31,3 +31,39 @@ With the Docker services `db`, `redis`, and `vector-db` running, and the FastAPI
 **Walkthrough video (recommended):** None.
 
 **Blockers or open questions:** None.
+
+
+## Week 9 — Solution building & PR submission
+
+### Check-in 1 (mid-week)
+
+**Current progress:**
+I completed all four implementation steps from my PLAN.md. I updated `api/routes/health.py` to wrap `SELECT 1` with SQLAlchemy `text()`, and I added a focused regression test in `tests/unit/test_health.py`. The test checks that `db.execute()` receives a `TextClause` containing `SELECT 1` and that PostgreSQL is reported as healthy after the database probe succeeds.
+
+The focused test passes, and the modified files pass Ruff, Black, and mypy. I also ran `make test-unit`. The baseline commit had 53 failed and 375 passed tests, while my fix commit had the same 53 failed tests and 376 passed tests. This confirms that the new health test passes and my change did not introduce additional failures.
+
+I manually called `GET /health` with the local application running. The endpoint returned HTTP 503 because the separate Redis issue is still present, but PostgreSQL changed from `unhealthy` to `healthy`, while Redis remained `unhealthy` and the vector database remained `healthy`.
+
+**Next steps:**
+I will run `make check`, review `docs/CONTRIBUTING.md`, and confirm that my branch name, commit message, docstrings, and final diff follow the project conventions. Then I will push my branch, open a draft pull request for Issue #154, and request feedback from a classmate or mentor. After reviewing any feedback, I will mark the pull request as ready for review and complete Check-in 2.
+
+**Blockers:**
+No blocker for Issue #154. The full unit suite still contains 53 pre-existing failures that are unrelated to this change, but the baseline comparison confirms that my fix added no new failures.
+
+---
+
+### Check-in 2 (end of week)
+
+**PR link:** [link to your submitted pull request]
+
+**Branch:** [the branch name you worked on, e.g. `fix/123-short-description`]
+
+**What you built:**
+[1–3 sentences summarizing what your fix does and how it works]
+
+**Tests added or updated:**
+[Which test files did you touch? What do they cover?]
+
+**Self-review confirmation:** [ ] make check passes  [ ] make test-unit passes
+
+**Draft PR feedback received from:** [name or Slack handle, or "none"]
